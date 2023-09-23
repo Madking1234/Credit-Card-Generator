@@ -9,9 +9,32 @@ function Form({onSubmit}){
   const [cvc, setCvc] = useState("");
   const [error,setError] = useState(false)
   
+
+  const formatNumber = (e) => {
+    const formatValue = e.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+
+
+    setNumber(formatValue);
+  };
+  const handleChange = (e) =>{
+    const result = e.target.value.replace(/[^a-z]/gi, '');
+    setCardName(result);
+  }
+  
+  
   const handleSubmit = (e) => {
     
     e.preventDefault();
+    
+
+      if(cardName.length===0){
+      setError(true);}
+    
+    
+    
+    
+
+    
     
     const formData = {
       cardName,
@@ -28,10 +51,12 @@ function Form({onSubmit}){
     setCvc("");
     
     onSubmit(formData);
-    if(cardName.length==0){
-      setError(true)
-    }
+    
+  
+    
   };
+  
+ 
   
   
   return (
@@ -39,16 +64,19 @@ function Form({onSubmit}){
       <div>
         <label id='label'>CARDHOLDER NAME</label>
         <div>
-          <input className='input-name-number' placeholder="e.g.Soumya raj" type="text" required value={cardName} onChange={(e) => setCardName (e.target.value)} />
+          <input className='input-name-number' placeholder="e.g.Soumya raj" type="text" required value={cardName} onChange={ handleChange} />
+          <div>
           {error?
-        <label id='not-valid'>This name is not valid !</label>:""}
+           <p id='not-valid'>This field is required!</p> 
+          : ""}</div>
         </div>
+        
         
       </div>
       <div>
         <label id='label'>CARD NUMBER</label>
         <div>
-          <input className='input-name-number' placeholder="e.g.1234 5678 9178 0000"  required  value={number} onChange={(e) => setNumber(e.target.value)} />
+          <input className='input-name-number' placeholder="e.g.1234 5678 9178 0000"  required  value={number}   onChange={(e) => formatNumber(e.target.value)} />
         </div>
         <label id='not-valid'>This number is not valid !</label>
       </div>
@@ -57,10 +85,10 @@ function Form({onSubmit}){
         <label id='label'>EXP.DATE(MM/YY)</label>
         <div className="month-year">
             <div>
-          <input className='mon' placeholder="MM" value={month} type="text" maxLength={2} pattern="(^0[1-9]|1[0-2])$" onChange={(e) => setMonth(e.target.value)} />
+          <input className='mon' placeholder="MM" value={month} type="text" maxLength={2} pattern="(^0[1-9]|1[0-2])$" required onChange={(e) => setMonth(e.target.value)} />
           </div>
           <div>
-          <input  className='exp' placeholder="YY" value={year} type="text" onChange={(e) => setYear(e.target.value)} />
+          <input  className='exp' placeholder="YY" value={year} type="text" maxLength={2} required  pattern="^(?:[23-4]\d|50)$" onChange={(e) => setYear(e.target.value)} />
           </div>
         </div>
         <label id='not-valid'>This year is not valid !</label>
@@ -68,7 +96,7 @@ function Form({onSubmit}){
       <div>
         <label id='label'>CVC</label>
         <div>
-          <input className='cvc' placeholder="e.g.123" value={cvc} onChange={(e) => setCvc(e.target.value)} />
+          <input className='cvc' placeholder="e.g.123" value={cvc} required maxLength={3}  pattern="/[0-9]{3}+/" onChange={(e) => setCvc(e.target.value)} />
         </div>
         <label id='not-valid'>This cvc is not valid !</label>
       </div>

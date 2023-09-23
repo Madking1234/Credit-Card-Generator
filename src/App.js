@@ -5,17 +5,20 @@ import React, { useState } from "react";
 
 
 function App() {
-  const [cardName, setCardName] = useState("Soumya Raj");
+  const [cardName, setCardName] = useState("SOUMYA RAJ");
   const [number, setNumber] = useState("0000 0000 0000 0000");
   const [year, setYear] = useState("55");
   const [month, setMonth] = useState("44");
   const [cvc, setCvc] = useState("000");
+  
   const handleFormSubmit = (formData) => {
-    setCardName(formData.cardName);
+    setCardName(formData.cardName.toUpperCase());
     setNumber(formData.number);
     setYear(formData.year);
     setMonth(formData.month);
     setCvc(formData.cvc);
+   
+    
     
     
   };
@@ -44,7 +47,7 @@ function App() {
     </div>
     <div className='card-detalis'>
       <div className='form-detalis'>
-        <Form onSubmit={handleFormSubmit}/>
+        <Form onSubmit={handleFormSubmit} />
       </div>
     </div>
   </>
